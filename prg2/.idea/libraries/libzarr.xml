@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="libzarr">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/libzarr.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

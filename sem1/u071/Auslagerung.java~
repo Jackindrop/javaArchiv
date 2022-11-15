@@ -1,0 +1,16 @@
+import java.util.*;
+public class Auslagerung {
+    public static void main(String[] args) {
+        Random rand = new Random();
+        int start = 1; 
+        for (int i = 1; i <= 10000; i++) {
+            int x6 = rand.nextInt(100) + 1;
+            if (x6 == 0) {
+                System.out.println("e0");
+            } else if (x6 == 101) {
+                System.out.println("e100");
+            }
+        }
+    }
+}
+

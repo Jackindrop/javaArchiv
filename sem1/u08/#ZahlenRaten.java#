@@ -1,0 +1,55 @@
+import java.util.*;
+import java.util.Scanner;
+public class ZahlenRaten {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in).useDelimiter("\n");
+        int numberrandom = 0;
+        int count = 1;
+        System.out.print("Ist es die " + randomnumber(numberrandom) + "? (J/N) ");
+        while (!eingabeCheck(input)) {
+            System.out.print("Ist es die " + randomnumber(numberrandom) + "? (J/N) ");
+            count ++;
+        }
+        System.out.println("Sie haben " + count + " Versuche gebraucht.");
+    }
+    
+    public static int randomnumber(int randomnumber) {
+        Random rand = new Random();
+        int number = rand.nextInt(10) + 1;
+        return number;
+    }
+    public static boolean eingabeCheck(Scanner input) {
+        int temp = 0;
+        int falsetemp = 0;
+        String yes = "J";
+        String no = "N";
+        while (input.hasNextLine()) {
+            String answ1 = input.next();
+            if (answ1.equalsIgnoreCase(yes)) {
+                System.out.println();
+                return true;
+            } else if (answ1.equalsIgnoreCase(no)) {
+                System.out.print("Ist es die " + randomnumber(temp) + "? (J/N) ");
+                answ1 = input.next();
+                return false;
+            } else if (input.hasNextLine()) {
+                System.out.println("Bitte antworten Sie mit J oder N.");
+                System.out.print("Ist es die " + falsetemp + "? (J/N) ");
+                answ1 = input.next();
+                return false;
+            } else {
+                input.next();
+            }
+        }
+    return true;
+    }
+}
+    
+
+
+    
+
+           
+
+    
+        

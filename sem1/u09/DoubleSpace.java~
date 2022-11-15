@@ -1,0 +1,98 @@
+/** aufruf von Scanner und File funktion*/
+import java.io.*;
+import java.util.*;
+/** aufruf der classe*/
+public class DoubleSpace {
+    /** aufruf der main methode*/
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        System.out.println("zu lesende Datei: ");
+        String filename = console.nextLine();
+        System.out.println("Zieldatei: ");
+        String destination = console.nextLine();         
+        doubleSpace2(filename, destination);
+        console.close();
+        System.out.println("Vorgang ausgeführt");
+    }
+    /** methode generiert zusätzlichen zeilenumbruch pro zeile, löscht die 
+    letzte leere Zeile der Output Datei 
+    und  behandelt Exception fehler selbstständig, Teilaufgabe b*/
+    public static void doubleSpace2(String inputFile, String outputFile) {
+        Scanner input = null;
+        PrintStream output = null;
+        try {
+            output = new PrintStream(new File(outputFile));
+            input = new Scanner(new File(inputFile));
+            input = null;
+            while (input.hasNextLine()) {
+                if (input.hasNextLine()) {
+                    String tmp = input.nextLine();
+                    output.println(tmp);
+                    output.println();
+                }
+            }
+            output.close();
+            input.close();
+            byte bit = 0;
+            RandomAccessFile f = new RandomAccessFile(outputFile, "rw");
+            long length = f.length() - 1;
+            do {                     
+                length -= 1;
+                f.seek(length);
+                bit = f.readByte();
+            } while (bit != 10 && length > 0);
+            if (length == 0) { 
+                f.setLength(length);
+            } else {
+                f.setLength(length + 1);
+            }
+            f.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }  catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (output != null) { 
+                output.close();
+            }
+            if (input != null) { 
+                input.close();
+            }
+        }
+    }
+    
+        /** methode generiert zusätzlichen zeilenumbruch pro zeile
+        Teilaufgabe a*/
+    public static void doubleSpace(String inputFile, String outputFile) throws FileNotFoundException, IOException {
+        PrintStream output = new PrintStream(new File(outputFile));
+        Scanner input = new Scanner(new File(inputFile));
+        while (input.hasNextLine()) {
+            if (input.hasNextLine()) {
+                String tmp = input.nextLine();
+                output.println(tmp);
+                output.println();
+            }
+        }
+        eraseLast(outputFile);
+    }
+    
+    /** methode löscht letzte leere zeile der output datei*/
+    public static void eraseLast(String file) throws IOException {
+        byte bit = 0;
+        RandomAccessFile f = new RandomAccessFile(file, "rw");
+        long length = f.length() - 1;
+        do {                     
+            length -= 1;
+            f.seek(length);
+            bit = f.readByte();
+        } while (bit != 10 && length > 0);
+        if (length == 0) { 
+            f.setLength(length);
+        } else {
+            f.setLength(length + 1);
+        }
+        f.close();
+    }
+}

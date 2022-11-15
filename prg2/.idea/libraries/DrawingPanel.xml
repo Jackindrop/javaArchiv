@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="DrawingPanel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/DrawingPanel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/DrawingPanel.jar!/" />
+    </SOURCES>
+  </library>
+</component>

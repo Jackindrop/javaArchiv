@@ -1,0 +1,111 @@
+/**
+<0> Statistik erstellen und Programmende
+<1> Beerenmix Fruchtaufstrich 200ml
+<2> Pflaume Holunder Fruchtaufstrich 200 ml
+<3> Sauerkirsche Fruchtaufstrich
+<4> Apfel Birnen Saft 1l
+<5> Apfel Schorle 1l
+<6> Apfelsaft Familienpackung 10l
+<7> Brotzeitbrett Kunze
+
+Ihre Wahl? 3
+Zu welchem Preis? 3,90
+Wie viele Einheiten? 100
+
+Ihre Wahl? 3
+Zu welchem Preis? 2,10
+Wie viele Einheiten? 38
+
+Ihre Wahl? 2
+Zu welchem Preis? 3,90
+Wie viele Einheiten? 30
+
+Ihre Wahl? 3
+Zu welchem Preis? 3,90
+Wie viele Einheiten? 45
+
+Ihre Wahl? 0
+Statistik (in der obigen Sortierung)
+
+Statistik für Pflaume Holunder Fruchtaufstrich 200 ml
+  Einzelverkäufe (nach Preis aufsteigend sortiert):
+    30 Einheiten zu 3.9 EUR
+  Akkumulierte Werte:
+    Einheiten (gesamt): 30
+    Durchschnittspreis: 3.9 EUR
+
+Statistik für Sauerkirsche Fruchtaufstrich
+  Einzelverkäufe (nach Preis aufsteigend sortiert):
+    38 Einheiten zu 2.1 EUR
+    145 Einheiten zu 3.9 EUR
+  Akkumulierte Werte:
+    Einheiten (gesamt): 183
+    Durchschnittspreis: 3.53 EUR 
+                                */
+import java.io.*;
+import java.util.*;
+/** Aufruf der Klassen-Datei */
+public class Kunze2 {
+    /**Aufruf der Main-Methode */
+    public static void main(String[] args) {
+        HashMap<String, HashMap<String, String>> inputDataMap=
+        new HashMap<String, HashMap<String, String>>();
+        ArrayList<String> reihenFolge= new ArrayList<>();
+        String[][][][] kpwasdassoll= new String[10][10][10][10];
+        
+        menueKunze();
+        eingabeAufMap(inputDataMap, reihenFolge);
+        berechnungStatistik(inputDataMap, reihenFolge);
+     
+    }
+    public static void berechnungStatistik(HashMap<String, 
+        HashMap<String, String>> inputDataMap, ArrayList<String> reihenFolge) {
+        HashMap<String, String> tempMap= new HashMap<>();
+    
+        for (String key : inputDataMap.keySet()) {
+            tempMap= inputDataMap.get(key);
+            System.out.println(tempMap);
+        }
+    }
+    
+    public static void eingabeAufMap(HashMap<String, 
+        HashMap<String, String>> inputDataMap, ArrayList<String> reihenFolge) {
+        HashMap<String, String> tempMap= new HashMap<>();
+        var mapping= inputDataMap;
+        Scanner console= new Scanner(System.in);
+        String sentinel= "0";
+        int count= 0;
+        System.out.print("Ihre Wahl? ");
+        while (console.hasNextLine()) {
+            var tempProdukt= console.next();
+            if (tempProdukt.equals(sentinel)) {
+                System.out.println("Statistik (in der obigen Sortierung)");
+                console.close();
+                break;
+            }
+            reihenFolge.add(tempProdukt);
+            System.out.print("Zu welchem Preis? ");
+            var tempPreis= console.next();
+            System.out.print("Wie viele Einheiten? ");
+            var tempAnzahl= console.next();
+            System.out.println();
+            
+            var mapInput= mapping.computeIfAbsent(tempProdukt, k ->new HashMap<>());
+            mapInput.put(tempPreis, tempAnzahl);           
+        }
+        System.out.println(inputDataMap);
+        System.out.println(reihenFolge);
+    }      
+    /** Ausgabe des Auswahlmenues */
+    public static void menueKunze() {
+        System.out.println("<0> Statistik erstellen und Programmende");
+        System.out.println("<1> Beerenmix Fruchtaufstrich 200ml");
+        System.out.println("<2> Pflaume Holunder Fruchtaufstrich 200 ml");
+        System.out.println("<3> Sauerkirsche Fruchtaufstrich");
+        System.out.println("<4> Apfel Birnen Saft 1l");
+        System.out.println("<5> Apfel Schorle 1l");
+        System.out.println("<6> Apfelsaft Familienpackung 10l");
+        System.out.println("<7> Brotzeitbrett Kunze");
+        System.out.println();
+    }
+}

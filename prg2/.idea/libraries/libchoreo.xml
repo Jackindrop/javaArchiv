@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libchoreo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/libchoreo.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/libchoreo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../extJar/libchoreo.jar!/" />
+    </SOURCES>
+  </library>
+</component>

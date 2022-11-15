@@ -1,0 +1,61 @@
+/** import für Scan-, Random-Funktion*/
+import java.util.*;
+/** aufruf der class datei*/
+public class ZahlenRaten {
+    /** aufruf der main methode, scanner wird an methode übergeben*/
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in).useDelimiter("\n");
+        numberCheckCounter(input);
+    }
+    /** methode produziert zufällige gaze zahl bei aufruf*/
+    public static int randomnumber(int numran) {
+        Random rand = new Random();
+        int number = rand.nextInt(10) + 1;
+        return number;
+    }
+    /** methode steuert ausgabe &  checkt input auf gültige eingabe*/
+    public static boolean numberCheckCounter(Scanner input) {
+        int count = 1;
+        int temp = 0;
+        temp = randomnumber(temp);
+        String yes = "J";
+        String no = "N";
+        System.out.print("Ist es die " + temp + "? (J/N) ");
+        String answ1 = input.next();
+        while (input.hasNextLine())
+        {
+            if (answ1.equalsIgnoreCase(yes))
+            {
+                System.out.println();
+                System.out.println("Sie haben " + count + " Versuche gebraucht.");
+                return true;
+            }
+            else if (answ1.equalsIgnoreCase(no))
+            {
+                temp = randomnumber(temp);
+                System.out.print("Ist es die " + temp + "? (J/N) ");
+                answ1 = input.next();
+            }
+            else if (input.hasNextLine())
+            {
+                System.out.println("Bitte antworten Sie mit J oder N.");
+                System.out.print("Ist es die " + temp + "? (J/N) ");
+                answ1 = input.next();
+            }
+            else
+            {
+                input.next();
+            }
+            count ++;
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
+

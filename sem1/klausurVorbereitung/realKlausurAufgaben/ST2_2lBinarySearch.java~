@@ -1,0 +1,32 @@
+import java.awt.*;
+public class ST2_2lBinarySearch {
+    
+    public static void main(String[] args) {
+        Point[] arr= {new Point(-10, 8), new Point(-2, 6), new Point(0, 7), 
+            new Point(3, 9), new Point(13, 6), new Point(43, 50)};
+            int x= -10;
+            
+            Point bS_result= new Point(
+    }
+    public static Point binarySearch(Point[] arr, int x, int left, int right) {
+        
+        if (left >= right) {
+            return null;
+        }
+        
+        if (left == right-1) {
+            if (arr[left].x > x) {
+                return arr[left];
+            } else {
+                return null;
+            }
+        }
+        
+        int mid= (left + right)/2;
+        if (arr[mid].x > x) {
+            return binarySearch(arr, x, left, mid);
+        } else {
+            return binarySearch(arr, x, mid, right);
+        }
+    }
+}

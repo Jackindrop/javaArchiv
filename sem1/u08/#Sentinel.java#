@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.*;
+import java.util.Scanner;
+public class Sentinel {
+    public static final String SENTINEL = " ";
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner input = new Scanner(new File("input.txt"));
+        ArrayList<String> names = new ArrayList<String>();
+        int dummy = 1;
+        while (input.hasNextLine()) {        
+            String temp = input.nextLine();    
+            if (breaktest(temp, SENTINEL)) {
+                System.out.print("Geben Sie einen Namen ein (oder eine leere Zeile zum Beenden): ");
+                System.out.println(temp);
+                names.add(temp);
+            } else {
+                break;
+            }
+        }
+        if (dummy <= names.size()) {
+            printList(names);
+        }
+    }
+    public static void printList(ArrayList<String> names) {
+        System.out.print("Willkommen an alle: ");
+        System.out.print(names.get(0));
+        for (int i = 1; i < names.size(); i++) {
+            System.out.print(", " + names.get(i));
+        }
+        System.out.println();
+    }
+    public static boolean breaktest(String temp, String SENTINEL) {
+        if (temp.equals(SENTINEL)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public static Scanner getScanner() throws FileNotFoundException {
+        Scanner datei = new Scanner(new File("data.txt"));
+        return datei;
+    }
+}
+                
+    
+        

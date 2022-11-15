@@ -1,0 +1,35 @@
+// mapping
+import java.util.*;
+public class LernMaps {
+    public static void main(String[] args) {
+        HashMap<String, String> haschMap= new HashMap<String, String>();
+        haschMap.put("3", "0");
+        haschMap.put("1", "0");
+        System.out.println(haschMap); //{1=0, 3=0}
+        
+        TreeMap<String, String> baumMap= new TreeMap<String, String>();
+        baumMap.put("3", "0");
+        baumMap.put("1", "0");
+        System.out.println(baumMap); //{1=0, 3=0}
+        
+        HashMap<Integer, String> hasschMap= new HashMap<Integer, String>();
+        hasschMap.put(3, "0");
+        hasschMap.put(1, "0");
+        System.out.println(hasschMap); //{1=0, 3=0}
+        
+        
+        HashMap<HashSet<String>, HashMap<String, String>> inputDataMap=
+        new HashMap<HashSet<String>, HashMap<String, String>>();
+        String tempProdukt1= "1";
+        String tempProdukt2= "2";
+        String tempPreis1= "1,8";
+        String tempPreis2= "2,2";
+        String tempAnzahl1= "30";
+        String tempAnzahl2= "5";
+        var mapping= inputDataMap;
+        var mapInput= mapping.computeIfAbsent(inputDataMap.add(tempProdukt1), k ->new HashMap<>());
+        mapInput.put(tempPreis2, tempAnzahl2);
+        mapInput.put(tempPreis1, tempAnzahl1);
+        
+    }
+}

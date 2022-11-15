@@ -1,0 +1,10 @@
+<0> Statistik erstellen und Programmende
+<1> Beerenmix Fruchtaufstrich 200ml
+<2> Pflaume Holunder Fruchtaufstrich 200 ml
+<3> Sauerkirsche Fruchtaufstrich
+<4> Apfel Birnen Saft 1l
+<5> Apfel Schorle 1l
+<6> Apfelsaft Familienpackung 10l
+<7> Brotzeitbrett Kunze
+
+Ihre Wahl? 

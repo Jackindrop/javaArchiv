@@ -1,0 +1,18 @@
+import java.io.*;
+import java.util.*;
+public class timeSaver {
+    public static void main(String[] args) {
+        TreeMap<String, String> bUchner= new TreeMap<String, String>();
+        //arnisT("aRniInputData.txt", bUchner);
+        
+    }
+    public static void arnisT(String baseName, TreeMap<String, String> bUchner) { 
+        Scanner inputFile= new Scanner(System.in);
+        try {
+            Scanner dummyScanner= new Scanner(new File(baseName));
+            inputFile= dummyScanner;
+        } catch (FileNotFoundException e) {
+            System.out.println("Fehler beim Datei zugriff.");
+        }
+    }
+}

@@ -1,0 +1,23 @@
+import java.util.*;
+public class Verdoppeln { 
+    public static void main(String[] args) {
+        
+        ArrayList<String> names= new ArrayList<String>();
+        Collections.addAll(names, "Ich", "studiere", "in", "Hannover");
+        System.out.println("Vorher: " + names);
+        verdoppeln(names);
+        System.out.print("Nacher: ");
+    }
+    public static void verdoppeln(Collection names) {
+        for (int i= 0; i < names.size(); i--) {
+            if (i % 2 == 0) {
+                String temp2= names.get(i);
+                Collections.swap(names, i, i+ 1);
+                names.add(i, temp2);
+            }
+        }
+        
+    }
+}
+            
+                

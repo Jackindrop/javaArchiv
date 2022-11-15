@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="libloc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/libloc.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

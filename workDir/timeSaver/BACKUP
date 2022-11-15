@@ -1,0 +1,426 @@
+import java.io.*;
+import java.util.*;
+public class equalOrNot2 {
+    public static void main(String[] args) {
+        // Tabelle 1 = Map 1 = Abbrechnung Büchner
+        // Tabelle 2 = Map 2 = dummy (später abrechnungsstelle
+        TreeMap<String, TreeMap<String,String>> bUchner= 
+            new TreeMap<String, TreeMap<String, String>>();
+        TreeMap<String, TreeMap<String,String>> bUchnerNOTEQUAL= 
+            new TreeMap<String, TreeMap<String, String>>();
+        TreeMap<String,String> fehlendeBelege= new TreeMap<String, String>();                
+        buchnerDataIn("aRniInputData.csv", bUchner);
+        arniDataIn("aRniInputDataB.csv", bUchnerNOTEQUAL);  
+        //printMaps(bUchner, bUchnerNOTEQUAL); //scanned Files output mit differenzen
+        nameFehlt(bUchner, bUchnerNOTEQUAL); //finden, Ausgeben & löschen fehlender
+        //printMaps(bUchner, bUchnerNOTEQUAL); //ouput without missing names
+        fehlendeBelege= belegFehlt(bUchner, bUchnerNOTEQUAL);
+   //     printMaps(bUchner, bUchnerNOTEQUAL);
+//        System.out.println(fehlendeBelege);
+        belegFehltPrinter(fehlendeBelege, bUchner, bUchnerNOTEQUAL);
+        //belegePrüfen(bUchner, bUchnerNOTEQUAL);
+        
+    }
+    public static void belegFehltPrinter(TreeMap<String,String> missingValues,
+            TreeMap<String, TreeMap<String,String>> mapOne, TreeMap<String, TreeMap<String,String>> mapTwo) {
+      //  System.out.println(missingValues);    
+       
+        for (String key : mapOne.keySet()) {
+            if (mapOne.containsValue(missingValues.get(key))) {
+             //   System.out.println("hatta");
+            }
+            TreeMap<String,String> dumTree= mapOne.get(key);
+          //  System.out.println(dumTree);
+            if (missingValues.containsKey(key)) {
+              //  System.out.println("hatta");
+            
+            
+            }
+        }
+    }
+            
+        
+    public static TreeMap<String,String> belegFehlt(TreeMap<String, TreeMap<String,
+        String>> mapOne, TreeMap<String, TreeMap<String,String>> mapTwo) {
+        TreeMap<String,String> valuesA= new TreeMap<String, String>(); //Maps welche die fehlenden
+        TreeMap<String,String> valuesB= new TreeMap<String, String>();//belege abspeichert
+        TreeMap<String,String> missingValues= new TreeMap<String, String>();
+        TreeMap<String,TreeMap<String,String>> namesValuesMissing= new 
+        TreeMap<String, TreeMap<String,String>>();
+        ArrayList<String> subKeys1= new ArrayList<>();                 //Arrays für fehlende Keys
+        ArrayList<String> subKeys2= new ArrayList<>();  
+        TreeMap<String, String> dumA= new TreeMap<String, String>();
+        TreeMap<String, String> dumB= new TreeMap<String, String>();//zwecks abgleich       
+        for (String key : mapTwo.keySet()) {    
+            if (mapOne.containsKey(key)) {
+                //  namesValuesMissing.put(key, nameFeeder);
+                //  System.out.println(namesValuesMissing);
+                 dumA= mapOne.get(key);
+                 dumB= mapTwo.get(key);
+                for (String values : dumA.keySet()) { // sammeln aller fehlender Daten Buchner
+                    subKeys1.add(values);             // daten = subKey
+                }
+                for (String values : dumB.keySet()) { // sammeln aller fehlender Daten Arni
+                    subKeys2.add(values);             // daten = subKey
+                }
+    
+                for (String values : dumA.keySet()) { // diagnose def. subData1
+                    if (!dumB.containsKey(values)) {                   
+                        valuesB.put(values, dumB.get(values));
+                        namesValuesMissing.put(key, valuesB);
+                    }     
+                }
+                
+            }
+            for (String keys : mapTwo.keySet()) { // diagnose def. subData2
+                for (String values : dumB.keySet()) { // diagnose def. subData2
+                    if (!dumA.containsKey(values)) {
+                        valuesB.put(values, dumB.get(values));
+                        namesValuesMissing.put(key, valuesB);
+                    }
+                }
+            }
+        }
+        //      {555562=null, 847524=null}
+        //    {555562=32.45.4113  626,43 533,4 , 847524=23.54.3622  26275,35 2422,65 , 847534=null}
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+        //    
+        System.out.println(valuesA);
+        System.out.println(valuesB);
+        System.out.println(missingValues);
+        System.out.println(namesValuesMissing);
+       
+        int count= 0;
+      //  System.out.println("\n|Fehlende Belege|------------------------------------------------------------------------|Arni|\n");
+        int valA= valuesA.size();
+        int valB= valuesB.size();
+        if (valA <= valB) {
+            for (int i= 0; i<=valuesB.size(); i++) {
+        
+                if (!valuesB.containsKey(subKeys2.get(i))) {
+                    //System.out.println("Buchner hatta "+subKeys2.get(i));
+                } else {
+                    System.out.println("\t\t\t\t\t\t\t\t\t-----------------------|");
+                    count++;
+                    //System.out.println("Buchner hatta nicht"+subKeys2.get(i));
+                    missingValues.put(subKeys2.get(i), valuesB.get(subKeys2.get(i)));
+                    dumA.put(subKeys2.get(i), valuesB.get(subKeys2.get(i)));
+                    mapOne.remove(subKeys2.get(i));
+                }
+            }
+        } else if (valA > valB) {
+      //  System.out.println("\n|Fehlende Belege|---------------------------------------------------------------------|Buchner|\n");
+
+            for (int i= 0; i<=valuesA.size(); i++) {
+                if (!valuesA.containsKey(subKeys1.get(i))) {
+                    //System.out.println("Arni hatta "+subKeys1.get(i));
+                } else {
+                    count++;
+                    //System.out.println("Arni hatta nicht"+subKeys1.get(i)); 
+                    missingValues.put(subKeys1.get(i), valuesA.get(subKeys1.get(i)));
+                    dumB.put(subKeys1.get(i), valuesB.get(subKeys1.get(i)));
+                    mapTwo.remove(subKeys1.get(i));
+                }            
+            }
+        }
+        System.out.println(missingValues);
+        System.out.println(namesValuesMissing);
+        
+        return missingValues;
+    }
+
+   
+    // methode druckt Werte zum Key/BelegNr zeilenweise aus
+    public static void belegToKeyPrinter(String keyToPrint, 
+            TreeMap<String, String> data) {
+        ArrayList<String> datenTabelle= new ArrayList<>();
+        datenTabelle.add("------------|Beleg-Nr.: ");
+        datenTabelle.add("------------|Datum: ");
+        datenTabelle.add("----------------------------|Brutto: ");
+        datenTabelle.add("----------------------------|zuZahlung: ");
+        for (String key : data.keySet()) {
+            String belegNr= key+ " ";
+            belegNr+= data.get(key);
+            String[] splitter= belegNr.split(" ");
+            for (int i= 0; i<= datenTabelle.size(); i++) {
+                if (i <=1) {
+                    System.out.println("-------------------------"+datenTabelle.get(i)
+                        +splitter[i]);
+                }
+                if (i >= 3) {
+                    System.out.println("---------------------------"+datenTabelle.get(i-1)
+                        +splitter[i]);
+                }
+            } 
+        }
+    }   
+    // prüft auf fehlende Namen in den Listen , gibt diese auf Console aus
+    //-> geht in methode über welche besagte Namen löscht.
+    public static void nameFehlt(TreeMap<String, TreeMap<String,String>> mapOne, 
+            TreeMap<String, TreeMap<String,String>> mapTwo) {
+        int countOne= 0;
+        int countTwo= 0;
+        ArrayList<String> missing= new ArrayList<>();       
+        for (String key : mapOne.keySet()) {
+            if (mapTwo.containsKey(key)) {
+                if (mapOne.containsKey(key)) {                  
+                }
+            } else {
+                countOne++;
+                if (countOne == 1) {
+                    System.out.println("\n|Fehlende Namen|-----------------------------------------------------------------------|Buchner|");
+                }
+                System.out.println("\n---------------|" +
+                    key+ " fehlt:");
+                TreeMap<String,String> tempPrint= mapOne.get(key);                
+                belegToKeyPrinter(key, tempPrint);
+                missing.add(key);
+            }           
+        }
+        for (String key : mapTwo.keySet()) {
+            if (mapOne.containsKey(key)) {
+                if (mapTwo.containsKey(key)) {                  
+                }
+            } else {
+                countTwo++;
+                if (countTwo <= 1) {
+                System.out.println("\n|Fehlende Namen|-------------------------------------------------------------------------|Arni|");                }              
+                System.out.println("\n---------------|" +
+                    key+ " fehlt:");
+                TreeMap<String,String> tempPrint= mapTwo.get(key);                
+                belegToKeyPrinter(key, tempPrint);
+                missing.add(key);
+            } 
+            
+        }
+        int sum= countOne + countTwo;
+      //  System.out.println("\n|Summe fehlender Namen|---------------------------------------------------------------------|"+sum+"|\n\n");
+        eraseMissingNames(mapOne, mapTwo, missing);
+    }
+    // fehlende namen werden aus den Collections gelöscht
+    public static void eraseMissingNames(TreeMap<String, TreeMap<String,String>> mapOne, 
+            TreeMap<String, TreeMap<String,String>> mapTwo, ArrayList<String> missingName) {
+        for (int i= 0; i<= missingName.size()-1; i++) {
+            if (!(mapOne.containsKey(missingName.get(i)) &&
+                    mapTwo.containsKey(missingName.get(i)) )) {
+                mapOne.remove(missingName.get(i));
+            }
+        }
+        for (int i= 0; i<= missingName.size()-1; i++) {
+            if (!(mapTwo.containsKey(missingName.get(i)) &&
+                   mapOne.containsKey(missingName.get(i)) )) {
+               mapTwo.remove(missingName.get(i));
+           }          
+        }
+    }
+    // scann der Datensätze von Buechner
+    public static void buchnerDataIn(String baseName, TreeMap<String, TreeMap<String,String>> bUchner) { 
+        Scanner inputFile= new Scanner(System.in);
+        inputFile.useLocale(new Locale("en", "US"));
+        try {
+            inputFile= new Scanner(new File(baseName));
+        } catch (FileNotFoundException e) {
+            System.out.println("Fehler beim Datei zugriff.");
+        } 
+        while (inputFile.hasNextLine()) {
+            String zeile= inputFile.nextLine();
+            String[] splitZ= zeile.split(" ");
+            String token1= splitZ[0]; // token1 = key          
+            if (token1.length() == 0) { // aussortieren des
+                continue;             // Versicherungs-Abschluss
+            }//-----------------------------------------------------------------                      
+            if (token1.length() == 6) { // einsortieren der Daten
+                String data="";         // data <== key = Map
+                String name= "";
+                for (int i= 1; i<= 1; i++) { // Token's vor dem Key zsmf.
+                    data+= splitZ[i]+ " ";      // zu data
+                }
+                for (int x= 2; x<=3; x++) { // Token 3-4= Name= key
+                    name+= splitZ[x]+ " ";
+                }                           // Token's nach dem Key zsmf.
+                for (int i= 4; i<= splitZ.length-2; i++) { // zu data
+                    data+= splitZ[i]+ " ";
+                }
+                if (name.charAt(0) == '"') { // AnführungZeichen "xyzName"
+                    String[] nameSplitter= name.split("\""); // enfernen
+                    name= nameSplitter[1];
+                }
+                if (!bUchner.containsKey(name)) {
+                    TreeMap<String, String> belege= new TreeMap<String, String>();
+                    String belegNrEins= splitZ[0];                 
+                    belege.put(belegNrEins, data);
+                    bUchner.put(name, belege);
+                } else if (bUchner.containsKey(name)) { // if contains Name add
+                    TreeMap<String, String> belege= bUchner.get(name); // data
+                    belege.put(splitZ[0], data);
+                }             
+            }//----------------------------------------------------------------- 
+            if (token1.length() == 7) {// aussortieren der 
+                                      // Krankenkassen-Zeilen
+            }                        // 7 stellige BeitragsNr.
+        }
+        inputFile.close();
+    }
+    /** Einlesen Tabelle mit anderen werten, zwecks prüfung der 
+        differenz-methode*/
+    public static void arniDataIn(String baseName, TreeMap<String, 
+            TreeMap<String,String>> mapFalse) { 
+        Scanner inputFile= new Scanner(System.in);
+        inputFile.useLocale(new Locale("en", "US"));
+        try {
+            inputFile= new Scanner(new File(baseName));
+        } catch (FileNotFoundException e) {
+            System.out.println("Fehler beim Datei zugriff.");
+        } 
+        while (inputFile.hasNextLine()) {
+            String zeile= inputFile.nextLine();
+            String[] splitZ= zeile.split(" ");
+            String token1= splitZ[0]; // token1 = key
+            
+            if (token1.length() == 0) { // aussortieren des
+                continue;             // Versicherungs-Abschluss
+            }//-----------------------------------------------------------------           
+            
+            if (token1.length() == 6) { // einsortieren der Daten
+                String data="";         // data <== key = Map
+                String name= "";
+                for (int i= 1; i<= 1; i++) { // Token's vor dem Key zsmf.
+                    data+= splitZ[i]+ " ";      // zu data
+                }
+                for (int x= 2; x<=3; x++) { // Token 3-4= Name= key
+                    name+= splitZ[x]+ " ";
+                }                           // Token's nach dem Key zsmf.
+                for (int i= 4; i<= splitZ.length-2; i++) { // zu data
+                    data+= splitZ[i]+ " ";
+                }
+                if (name.charAt(0) == '"') { // AnführungZeichen "xyzName"
+                    String[] nameSplitter= name.split("\""); // enfernen
+                    name= nameSplitter[1];
+                }
+                if (!mapFalse.containsKey(name)) {
+                    TreeMap<String, String> belege= new TreeMap<String, String>();
+                    String belegNrEins= splitZ[0];                 
+                    belege.put(belegNrEins, data);
+                    mapFalse.put(name, belege);
+                } else if (mapFalse.containsKey(name)) { // if contains Name add
+                    TreeMap<String, String> belege= mapFalse.get(name); // data
+                    belege.put(splitZ[0], data);
+                    mapFalse.put(name, belege);
+                }             
+            }//----------------------------------------------------------------- 
+            
+            if (token1.length() == 7) {// aussortieren der 
+                                      // Krankenkassen-Zeilen
+            }                        // 7 stellige BeitragsNr.
+        }
+        inputFile.close();
+    }/**
+    //DataZeile[]= {Index0=BelegNr, Index1=Datum, Index3=Brutto, Index4=zuZahlung} 
+    public static void belegePrüfen(TreeMap<String, TreeMap<String,String>> mapOne, 
+            TreeMap<String, TreeMap<String,String>> mapTwo) {
+        int sizeOne= mapOne.size();
+        int sizeTwo= mapTwo.size();
+        int count= 0;
+        TreeMap<String, String> mapEins= new TreeMap<String, String>();
+        TreeMap<String, String> mapZwei= new TreeMap<String, String>();
+        String fehlerQuelle= "";       
+        if (sizeOne <= sizeTwo) {
+            for (String key : mapZwei.keySet()) {
+                String be1= mapEins.get(key);
+                String be2= mapZwei.get(key);
+                String bee1= key + be1;
+                String bee2= key + be2;                
+                String[] beleg1= bee1.split(" ");
+                String[] beleg2= bee2.split(" ");                
+                System.out.println(key +"\t" +Arrays.toString(beleg2));
+                System.out.println(key +"\t" +Arrays.toString(beleg1));
+                if (beleg1[0].equals(beleg2[0])) {
+                    String bruttoS1= beleg1[2].replaceAll(",",".");
+                    String bruttoS2= beleg2[2].replaceAll(",",".");
+                    double brutto1= Double.parseDouble(bruttoS1);
+                    double brutto2= Double.parseDouble(bruttoS2);
+                    double averageBrutto= round2(brutto1-brutto2);
+                    String zuZahlungS1= beleg1[3].replaceAll(",",".");
+                    String zuZahlungS2= beleg2[3].replaceAll(",",".");
+                    double zuZahlung1= Double.parseDouble(zuZahlungS1);
+                    double zuZahlung2= Double.parseDouble(zuZahlungS2);
+                    double averageZuZahlung= round2(zuZahlung1-zuZahlung2);
+                    System.out.println(beleg1[0] + beleg1[2] +beleg1[3]);
+                    if ((averageBrutto != 0.0)&&(averageZuZahlung == 0.0)) {
+                        System.out.println("Brutto Fehler bei:     \n");
+                        belegToKeyPrinter(beleg1[0], mapEins);
+                        belegToKeyPrinter(beleg2[0], mapZwei);
+                        System.out.println("\t\t\t\t\tBrutto-differenz:      "+ averageBrutto);
+                    } else if ((averageZuZahlung != 0.0)&&(averageBrutto == 0.0)) {
+                        System.out.println("\t\t\t\tzuZahlungen-differenz: "+ averageBrutto);
+                    } else if ((averageBrutto != 0.0) && (averageZuZahlung != 0.0)) {
+                        System.out.println("\t\t\t\t\tBrutto-differenz:      "+ averageBrutto);
+                        System.out.println("\t\t\t\t\tzuZahlungen-differenz: "+ averageBrutto);
+                    }                   
+                }                
+            }          
+        } else if (sizeOne > sizeTwo) {
+            for (String key : mapEins.keySet()) {
+                String[] beleg1= mapEins.get(key).split(" ");
+                String[] beleg2= mapZwei.get(key).split(" ");
+                if (beleg1[0].equals(beleg2[0])) {
+                    String bruttoS1= beleg1[2].replaceAll(",",".");
+                    String bruttoS2= beleg2[2].replaceAll(",",".");
+                    double brutto1= Double.parseDouble(bruttoS1);
+                    double brutto2= Double.parseDouble(bruttoS2);
+                    double averageBrutto= round2(brutto1-brutto2);
+                    String zuZahlungS1= beleg1[3].replaceAll(",",".");
+                    String zuZahlungS2= beleg2[3].replaceAll(",",".");
+                    double zuZahlung1= Double.parseDouble(zuZahlungS1);
+                    double zuZahlung2= Double.parseDouble(zuZahlungS2);
+                    double averageZuZahlung= round2(zuZahlung1-zuZahlung2);
+                    System.out.println(key +"\t" +Arrays.toString(beleg2));
+                    System.out.println(key +"\t" +Arrays.toString(beleg1));
+                    if ((averageBrutto != 0.0)&&(averageZuZahlung == 0.0)) {
+                        System.out.println("Brutto Fehler bei:     \n");
+                        belegToKeyPrinter(beleg1[0], mapEins);
+                        belegToKeyPrinter(beleg2[0], mapZwei);
+                        System.out.println("\t\t\t\t\tBrutto-differenz:      "+ averageBrutto);
+                    } else if ((averageZuZahlung != 0.0)&&(averageBrutto == 0.0)) {
+                        System.out.println("\t\t\t\tzuZahlungen-differenz: "+ averageBrutto);
+                    } else if ((averageBrutto != 0.0) && (averageZuZahlung != 0.0)) {
+                        System.out.println("\t\t\t\t\tBrutto-differenz:      "+ averageBrutto);
+                        System.out.println("\t\t\t\t\tzuZahlungen-differenz: "+ averageBrutto);
+                    }                   
+                }                
+            }
+        }       
+    }*/
+    public static void printMaps(TreeMap<String, TreeMap<String,String>> mapOne, 
+            TreeMap<String, TreeMap<String,String>> mapTwo) {
+        Scanner console= new Scanner(System.in);
+        int countA= 0;
+        int countB= 0;
+        System.out.println("\n|Erfasste Namen|----------------------------------------------------------------------|Buchner|");
+        for (String key : mapOne.keySet()) {
+            countA++;
+            System.out.println("|"+key +"|-----|" + mapOne.get(key));
+        }
+        System.out.println("\n\n|Erfasste Namen|-------------------------------------------------------------------------|Arni|");
+        for (String key : mapTwo.keySet()) {
+            countB++;
+             System.out.println("|"+key +"|-----|" + mapTwo.get(key));
+        }
+        System.out.print("\n\n|----------------------------------------------------------------------|Anzahl erfasster Namen|");
+        System.out.println("\n|Arni|--------------------------------------------------------------------------------------|"+countA+"|");
+        System.out.println("|Buchner|-----------------------------------------------------------------------------------|"+countB+"|");
+        System.out.println("|Insgesamt|---------------------------------------------------------------------------------|"+(countA+countB)+"|");
+            
+        
+        System.out.println("|---------------------------------------------------------------------------------------------|\n\n");
+        console.close();
+        countA= 0;
+        countB= 0;
+    }
+    /** Rundet Ausgabe Double auf zwei nachkommastellen */
+    public static double round2(double value) {
+        if (Double.isNaN(value)) return value;
+        if (Double.isInfinite(value)) return value;
+        return Math.round(value * 100) / 100.0;
+    }
+}

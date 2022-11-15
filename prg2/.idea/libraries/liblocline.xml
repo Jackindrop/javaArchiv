@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="liblocline">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../extJar/liblocline.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

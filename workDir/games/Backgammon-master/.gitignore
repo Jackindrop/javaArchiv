@@ -1,0 +1,10 @@
+.classpath
+target/
+.project
+.settings/
+.idea
+.idea/
+Logs/
+./art.iml
+./DEADJOE
+DEADJOE

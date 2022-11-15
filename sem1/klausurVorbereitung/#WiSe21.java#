@@ -1,0 +1,209 @@
+import java.io.*;
+import java.util.*;                                 //--------------/28/12/2021
+public class WiSe21 {
+/** 
+Gedächtnisprotokoll - Programmieren 1 - WiSe2021
+1. Finden Sie einen Ausdruck für (6 Punkte):
+    a. Double d entspricht a/3 (a ist vom Typ int).
+    b. Char k entspricht dem n-ten Buchstabe des Alphabets. Das n ist als int
+    gegeben
+    c. Boolean z gibt an, ob der double n auf die zweite Kommastelle genau 3.14
+    entspricht (3.143 ist true, 3.153 ist false).
+    Math.round ist nicht erlaubt, double Rundungsfehler müssen beachtet
+    werden.
+2. Schreiben sie mit Hilfe von for-Schleifen Ausdrücke, welche diese Figur auf der
+    console ausgeben. Schreiben sie keine Methode. (Punkte 12)
+    #++++++++++
+    $#++++++++
+    $$#++++++
+    $$$#++++
+    $$$$#++
+    $$$$$#
+3. Was sind die Rückgabewerte der methode mit m(8), m(12) und m(25) (Punkte 8)
+    public static int m(int a) {
+    if(a<=6) {
+        return a-1;
+    } else if(a % 6 == 0) {
+        return 3 * m(a/2) + m(a/3);
+    } else {
+    return m(a-1) + 2;
+    }
+}
+4. Collections (20 Punkte)
+    Schreiben Sie eine Methode die als Übergabeparameter einen String übergeben
+    bekommt, welcher einen Dateinamen repräsentiert.
+    In der Datei stehen in jeder Zeile ein Name <Leerzeichen> Projektkürzel. Namen
+    enthalten kein Leerzeichen. Lesen Sie die Datei ein und speichern sie die Inhalte in
+    einer passenden Collection (HashMap, TreeMap, HashSet, TreeSet). Beachten Sie
+    unter anderem das Schließen des Scanners.
+    Anschließen sollen die Projektkürzel sortiert auf die Konsole ausgegeben werden
+    und hinter jedem Kürzel sollen getrennt jeweils die Namen der Mitglieder in
+    beliebiger Reihenfolge ausgegeben werden.
+    Ist die Datei nicht vorhanden, soll Ihre Methode eine FileNotFoundException
+    “Lesefehler” ausgeben.
+5. Schreibe eine Methode die ein Array entgegennimmt und die Werte umdreht. Das
+    Array soll nicht returned werden sondern das Objekt soll verändert werden (Punkte 10)
+    z.B. [1,2,3,4,5] -> [5,4,3,2,1]
+6. Zufall (15 Punkte)
+    a. Schreibe Methode die eine Zufallszahl zwischen 10 und 20 (jeweils inklusive)
+    zurückgibt.
+    b. Schreibe eine Methode die eine Summe aus 100 Zufallszahlen berechnet und
+    zurückgibt. Benutze dabei die Funktion aus Teilaufgabe a
+    c. Schreibe ein Methode die überprüft ob die Summe (Methode aus Teilaufgabe
+    b) größer als 1500 ist und gebe true zurück.
+    d. Schreibe eine Methode die zählt und zurückgibt wie viele Aufrufe von zufall
+    (Teilaufgabe a) benötigt werden damit die kumulative Summe größer als 2000 ist.
+7. Schreibe Logische Ausdrücke die in die Klammern eines if/else passen die einmal
+    Abfragen. Geschlecht wird im Char g gespeichert, Name wird im String n gespeichert
+    und die Größe wir in Int m gespeichert(Punkte 8):
+    a. Männlich und 181 cm groß,
+    b. Weiblich und beliebige Größe oder kleiner als 185 cm und beliebiges Geschlecht,
+    c. Name nicht "Lina"
+8. Wozu ist das Geheimnisprinzip gut? Kreuzen Sie eine Antwort an. (3 Punkte)
+    a. Möglichst voneinander unabhängige Methoden.
+    b. Vermeidung von Redundanz, weil geheime Methode schwer reproduziert werden.
+    c. Laufzeitgewinn durch effektiveres ausführen der Methoden.
+    d. Vermeidung von Rundungsfehlern bei der Übertragung auf Methoden.
+    e. Interne Verschlüsselungsalgorithmen vereinfachen Kontrolle.
+9. Was gibt dieses Programm aus? (8 Punkte)
+    public static void methode(Point a, Point b, int k, String s) {
+        a = new Point();
+        a.x = 9;
+        b.x = 15;
+        k = 11;
+        s = s + "Y";
+    }
+    public static void main(String[] args) {
+        Point a = new Point(2,2);
+        Point b = new Point(4,4);
+        int k = 5;
+        String s = "B";
+        methode(a, b, k, s);
+        System.out.println(a.x);
+        System.out.println(b.x);
+        System.out.println(k);
+        System.out.println(s);
+    }                                                                       */
+    public static void aufgabeSieben() {
+        //??????????????????????????????????????????????????????????????
+    }
+    public static int aufgabeSechsD() {
+        int summe= 0;
+        int count= 0;
+        while (summe <= 2000) {
+            summe+= aufgabeSechsA();
+            count++;
+        }
+        return count;
+    }
+    public static boolean aufgabeSechsC(int summe) {
+        if(summe >= 1500) {
+            return true;
+        } 
+        return false;
+    } 
+    public static int aufgabeSechsB() {//gönnung der Summe von 100 würfen
+        int summe= 0;
+        for (int i=0; i<= 100; i++) {
+            summe+= aufgabeSechsA();
+        }
+        return summe;
+    }      
+    public static int aufgabeSechsA() {// rückgabe z.Zahl 10-20
+        Random rand= new Random(); 
+            return rand.nextInt(11) + 10;         
+    } 
+    public static int[] aufgabeFünf(int[] reTurner) {
+        int laenge= reTurner.length- 1;
+        int[] twister= new int[reTurner.length];// initialisieren!
+        for (int x=0; x<= laenge; x++) {// gefahr duch Zeigersymantik
+            twister[x]= reTurner[x];//bei int[] twister= reTurner
+        }           //FuckedUpOutput: [8, 7, 6, 5, 4, 5, 6, 7, 8]
+        for (int i= 0; i<= laenge; i++) {//<- neue sortierung
+            reTurner[i]= twister[laenge-i];
+        }//Object verändert.
+        return reTurner;
+    }
+    
+    public static void aufgabeVier(String baseName) {
+        TreeMap<String,TreeSet<String>> personalData= 
+            new TreeMap<String,TreeSet<String>>();
+        Scanner inputData= new Scanner(System.in);
+        try {
+            Scanner input= new Scanner(new File(baseName));
+            inputData= input;
+        } catch (FileNotFoundException e) {
+            System.out.println("Lesefehler");
+        }
+        while (inputData.hasNext()) {
+            String nameTemp= inputData.next();
+            String projectTemp= inputData.next(); 
+            if (personalData.containsKey(projectTemp)) {// Ist Data in Map so
+                TreeSet<String> names= new TreeSet<String>();// wird Set temp.
+                names= personalData.get(projectTemp);// extrahiert und ergänzt
+                names.add(nameTemp);
+            } else {
+                TreeSet<String> names= new TreeSet<String>();// Wenn nicht,
+                personalData.put(projectTemp, names);//wird neuer Key mit Set 
+                names.add(nameTemp);                // angelegt
+            }
+        }
+        inputData.close();
+        System.out.println(personalData);       
+    }
+    public static int aufgabeDrei(int a) {
+        if (a<= 6) {
+            return a-1;
+        } else if (a% 6 ==0) {
+            return 3*aufgabeDrei(a/2) + aufgabeDrei(a/3);
+        } else {
+            return aufgabeDrei(a-1)+ 2;
+        }
+    }   
+    public static void aufgabeZwei() {
+        System.out.println("--------------------------------------------------Aufgabe 2");
+        for (int i= 1; i<= 6; i++) {                //höhe grafik
+            for (int s= 2; s<= i; s++) {            //'$' ab zweiter zeile
+                System.out.print("$");
+            }           
+            System.out.print("#");                        
+            for (int k= 0; k<= 11-i*2; k++) {
+                System.out.print("+");
+            }
+            System.out.println();
+        }
+    }   
+    public static void aufgabeEins() {//??????????????????????????????????????
+/**a*/  int a= 4;
+        double d= a/3;
+        //System.out.println(d);
+/**b*/  
+    }    
+    public static void main (String[] args) {
+        aufgabeEins();
+        aufgabeZwei();
+        System.out.println("--------------------------------------------------Aufgabe 3");
+        System.out.println(aufgabeDrei(8));
+        System.out.println(aufgabeDrei(12));
+        System.out.println(aufgabeDrei(25));
+        System.out.println("--------------------------------------------------Aufgabe 4");
+        aufgabeVier("aVierCollections.txt");
+        System.out.println("--------------------------------------------------Aufgabe 5");
+        System.out.println(Arrays.toString(aufgabeFünf(testArray())));
+        System.out.println("--------------------------------------------------Aufgabe 6a");
+        System.out.println("random number [10-20]: "+ aufgabeSechsA());
+        System.out.println("--------------------------------------------------Aufgabe 6b");
+        int zwischenErgebniss= aufgabeSechsB();
+        System.out.println("sum of 100 rand'S: " + zwischenErgebniss);
+        System.out.println("--------------------------------------------------Aufgabe 6c");
+        System.out.println("sum of 100 bigger than?: " + aufgabeSechsC(zwischenErgebniss));
+        System.out.println("--------------------------------------------------Aufgabe 6d");
+        System.out.println("rows till sum >= 2000: "+ aufgabeSechsD());
+       
+    }
+    
+    public static int[] testArray() {
+        int[] testArray= {0, 1, 2, 3, 4, 5, 6, 7, 8};
+        return testArray;
+    }
+}
